@@ -39,26 +39,49 @@ class LinkedList {
     }
 
     getAt(index) {
-        let counter = 0;
-        let curr = this.head;
-        let pre;
-        while(curr.next) {
-            if(counter === (index - 1)) {
-                return {
-                    curr, pre
-                };
+        if(this.size > 0) {
+            let counter = 0;
+            let curr = this.head;
+            let pre;
+            while(curr.next) {
+                if(counter === (index - 1)) {
+                    pre = curr;
+                    curr = curr.next;
+                    counter++;
+                    return {
+                        curr, pre
+                    };
+                }
             }
-            pre = curr;
-            curr = curr.next;
-            counter++;
+        } else {
+            return false;
         }
     }
     
+    getItemAt(index) {
+        let counter = 0;
+        let curr = this.head;
+        let item;
+        if(this.size > 0) {
+            while(counter === index) {
+                item = curr.data;
+                curr = curr.next;
+                counter++;
+            }
+            return item;
+        }
+    }
+
     insertAt(index, value) {
+        console.log(index, value);
         let nodeAt = this.getAt(index);
-        let newNode = new Node(value);
-        nodeAt.pre.next = newNode;
-        newNode.next = nodeAt.curr;
+        if (nodeAt) {
+            let newNode = new Node(value);
+            nodeAt.pre.next = newNode;
+            newNode.next = nodeAt.curr;
+        } else {
+            this.add(value);
+        }
     }
 
     removeAt(index) {
@@ -81,13 +104,14 @@ class LinkedList {
 }
 
 
-let a =  new LinkedList();
-a.add(2);
-a.add(3);
-a.add(4);
-a.add(5);
-a.printList();
-a.insertAt(3, 9);
-a.removeAt(3);
-a.printList();
+// let a =  new LinkedList();
+// a.add(2);
+// a.add(3);
+// a.add(4);
+// a.add(5);
+// a.printList();
+// a.insertAt(3, 9);
+// a.removeAt(3);
+// a.printList();
 
+module.exports = LinkedList;
